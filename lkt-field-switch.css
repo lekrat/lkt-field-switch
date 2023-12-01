@@ -1,0 +1,77 @@
+.lkt-field-switch {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: var(--input-height);
+    font-size: var(--field-font-size);
+    position: relative;
+    margin-top: 0 !important;
+    color: var(--text-color);
+}
+
+.lkt-field-switch label:before,
+.lkt-field-switch label:after {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: all linear 200ms;
+    display: block;
+    content: '';
+    border-radius: var(--field-border-radius);
+}
+
+.lkt-field-switch label:before {
+    left: 0;
+    width: 42px;
+    height: 22px;
+    background-color: #eeeeee;
+    border: 1px solid #cccccc;
+    z-index: 1;
+}
+
+.lkt-field-switch label:after {
+    left: 2px;
+    width: 18px;
+    height: 18px;
+    background: var(--warning-color);
+    z-index: 3;
+}
+
+.lkt-field-switch label {
+    display: block;
+    font-weight: var(--field-label-font-weight);
+    font-size: var(--field-label-font-size);
+    line-height: var(--field-label-line-height);
+    margin: var(--field-label-margin);
+    padding-left: 50px;
+}
+
+.lkt-field-switch input {
+    display: none;
+    opacity: 0;
+}
+
+.lkt-field-switch input[disabled],
+.lkt-field-switch input[readonly] {
+    box-shadow: none;
+    border-color: var(--disabled-color);
+    background-color: var(--disabled-color-contrast) !important;
+}
+
+.lkt-field-switch input:checked + label:after {
+    background: var(--success-color);
+    left: 22px;
+}
+
+.lkt-field-switch input:disabled + label:after {
+    background: rgba(var(--warning-color), .4);
+}
+
+.lkt-field-switch input:disabled:checked + label:after {
+    background: rgba(var(--success-color), .4);
+}
+
+/* Read mode */
+
+
+/* State */

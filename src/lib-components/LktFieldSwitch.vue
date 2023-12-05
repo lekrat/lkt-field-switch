@@ -47,6 +47,7 @@ const inputElement = ref(null);
 // Reactive data
 const originalValue = ref(props.modelValue),
     value = ref(props.modelValue),
+    inputLikeValue = ref(value.value ? 'true' : 'false'),
     focusing = ref(false),
     editable = ref(!props.readMode);
 
@@ -82,7 +83,7 @@ const focus = () => {
 
 // Watch data
 watch(() => props.modelValue, (v) => value.value = v)
-watch(value, (v) => emits('update:modelValue', v))
+watch(value, (v) => (inputLikeValue.value = value.value ? 'true' : 'false') && emits('update:modelValue', v))
 
 const reset = () => value.value = originalValue.value,
     getValue = () => value.value,
@@ -111,6 +112,8 @@ defineExpose({
                v-bind:disabled="disabled || !editable"
                v-bind:readonly="readonly"
                v-bind:placeholder="placeholder"
+               v-bind:value="inputLikeValue"
+               v-bind:checked="value"
                v-on:focus="onFocus"
                v-on:blur="onBlur">
         <slot v-if="!!slots.label" name="label"></slot>

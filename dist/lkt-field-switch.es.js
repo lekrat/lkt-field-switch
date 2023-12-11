@@ -1,6 +1,6 @@
-import { defineComponent as H, useSlots as R, ref as o, computed as c, watch as y, openBlock as h, createElementBlock as b, normalizeClass as j, unref as d, renderSlot as g, withDirectives as z, createElementVNode as A, vModelCheckbox as D, createCommentVNode as k, nextTick as I } from "vue";
-import { generateRandomString as S } from "lkt-string-tools";
-import { createLktEvent as V } from "lkt-events";
+import { defineComponent as H, useSlots as R, ref as o, computed as p, watch as v, openBlock as b, createElementBlock as g, normalizeClass as j, unref as d, renderSlot as k, withDirectives as z, createElementVNode as A, vModelCheckbox as D, createCommentVNode as S, nextTick as I } from "vue";
+import { generateRandomString as V } from "lkt-string-tools";
+import { createLktEvent as M } from "lkt-events";
 const U = ["data-labeled"], q = ["name", "id", "disabled", "readonly", "placeholder", "value", "checked"], G = ["for", "innerHTML"], J = { name: "LktFieldSwitch", inheritAttrs: !1 }, K = /* @__PURE__ */ H({
   ...J,
   props: {
@@ -8,7 +8,7 @@ const U = ["data-labeled"], q = ["name", "id", "disabled", "readonly", "placehol
     placeholder: { type: String, default: "" },
     label: { type: String, default: "" },
     palette: { type: String, default: "" },
-    name: { type: String, default: S(16) },
+    name: { type: String, default: V(16) },
     valid: { type: Boolean, default: !1 },
     autocomplete: { type: Boolean, default: !0 },
     disabled: { type: Boolean, default: !1 },
@@ -25,8 +25,8 @@ const U = ["data-labeled"], q = ["name", "id", "disabled", "readonly", "placehol
     switchEditionMessage: { type: String, default: "" }
   },
   emits: ["update:modelValue", "focus", "blur", "click", "click-info", "click-error"],
-  setup(t, { expose: B, emit: M }) {
-    const n = M, s = R(), l = t, u = S(16), i = o(null), p = o(l.modelValue), a = o(l.modelValue), v = o(a.value ? "true" : "false"), r = o(!1), w = o(!l.readMode), x = c(() => typeof l.valid == "function" ? l.valid() : l.valid), L = c(() => a.value !== p.value), E = c(() => {
+  setup(t, { expose: B, emit: w }) {
+    const n = w, s = R(), l = t, u = V(16), i = o(null), m = o(l.modelValue), a = o(l.modelValue), y = o(a.value ? "true" : "false"), r = o(!1), f = o(!l.readMode), x = p(() => typeof l.valid == "function" ? l.valid() : l.valid), L = p(() => a.value !== m.value), E = p(() => {
       const e = ["lkt-field", "lkt-field-switch"];
       return l.palette && e.push(`lkt-field--${l.palette}`), L.value && e.push("is-changed"), l.disabled && e.push("is-disabled"), r.value && e.push("has-focus"), e.push(x.value ? "is-valid" : "is-error"), e.push(l.modelValue ? "is-filled" : "is-empty"), e.join(" ");
     }), C = () => {
@@ -34,37 +34,37 @@ const U = ["data-labeled"], q = ["name", "id", "disabled", "readonly", "placehol
         i.value && i.value.focus();
       });
     };
-    y(() => l.modelValue, (e) => a.value = e), y(a, (e) => (v.value = a.value ? "true" : "false") && n("update:modelValue", e));
-    const F = () => a.value = p.value, N = () => a.value, T = (e) => (r.value = !0) && n("focus", e, V(u, { value: a.value })), $ = (e) => (r.value = !1) && n("blur", e, V(u, { value: a.value }));
+    v(() => l.readMode, (e) => f.value = !e), v(() => l.modelValue, (e) => a.value = e), v(a, (e) => (y.value = a.value ? "true" : "false") && n("update:modelValue", e));
+    const F = () => a.value = m.value, N = () => a.value, T = (e) => (r.value = !0) && n("focus", e, M(u, { value: a.value })), $ = (e) => (r.value = !1) && n("blur", e, M(u, { value: a.value }));
     return B({
       Identifier: u,
       reset: F,
       focus: C,
       value: N,
       isMandatory: () => l.mandatory
-    }), (e, m) => (h(), b("div", {
+    }), (e, h) => (b(), g("div", {
       class: j(E.value),
       "data-labeled": !d(s).label
     }, [
-      g(e.$slots, "prefix"),
+      k(e.$slots, "prefix"),
       z(A("input", {
-        "onUpdate:modelValue": m[0] || (m[0] = (f) => a.value = f),
+        "onUpdate:modelValue": h[0] || (h[0] = (c) => a.value = c),
         type: "checkbox",
-        ref: (f) => i.value = f,
+        ref: (c) => i.value = c,
         name: t.name,
         id: d(u),
-        disabled: t.disabled || !w.value,
-        readonly: t.readonly,
+        disabled: !f.value || t.disabled,
+        readonly: !f.value || t.readonly,
         placeholder: t.placeholder,
-        value: v.value,
+        value: y.value,
         checked: a.value,
         onFocus: T,
         onBlur: $
       }, null, 40, q), [
         [D, a.value]
       ]),
-      d(s).label ? g(e.$slots, "label", { key: 0 }) : k("", !0),
-      d(s).label ? k("", !0) : (h(), b("label", {
+      d(s).label ? k(e.$slots, "label", { key: 0 }) : S("", !0),
+      d(s).label ? S("", !0) : (b(), g("label", {
         key: 1,
         for: d(u),
         innerHTML: t.label

@@ -82,6 +82,7 @@ const focus = () => {
 
 
 // Watch data
+watch(() => props.readMode, (v) => editable.value = !v)
 watch(() => props.modelValue, (v) => value.value = v)
 watch(value, (v) => (inputLikeValue.value = value.value ? 'true' : 'false') && emits('update:modelValue', v))
 
@@ -109,8 +110,8 @@ defineExpose({
                :ref="(el:any) => inputElement = el"
                v-bind:name="name"
                v-bind:id="Identifier"
-               v-bind:disabled="disabled || !editable"
-               v-bind:readonly="readonly"
+               v-bind:disabled="!editable || disabled"
+               v-bind:readonly="!editable || readonly"
                v-bind:placeholder="placeholder"
                v-bind:value="inputLikeValue"
                v-bind:checked="value"

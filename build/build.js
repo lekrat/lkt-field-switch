@@ -1,4 +1,4 @@
-import { defineComponent as H, useSlots as R, ref as o, computed as p, watch as v, openBlock as b, createElementBlock as k, normalizeClass as j, unref as d, renderSlot as g, withDirectives as z, createElementVNode as A, vModelCheckbox as D, createCommentVNode as S, nextTick as I } from "vue";
+import { defineComponent as H, useSlots as R, ref as o, computed as p, watch as v, openBlock as b, createElementBlock as g, normalizeClass as j, unref as d, renderSlot as k, withDirectives as z, createElementVNode as A, vModelCheckbox as D, createCommentVNode as S, nextTick as I } from "vue";
 import { generateRandomString as V } from "lkt-string-tools";
 import { createLktEvent as M } from "lkt-events";
 const U = ["data-labeled"], q = ["name", "id", "disabled", "readonly", "placeholder", "value", "checked"], G = ["for", "innerHTML"], J = { name: "LktFieldSwitch", inheritAttrs: !1 }, K = /* @__PURE__ */ H({
@@ -26,7 +26,7 @@ const U = ["data-labeled"], q = ["name", "id", "disabled", "readonly", "placehol
   },
   emits: ["update:modelValue", "focus", "blur", "click", "click-info", "click-error"],
   setup(t, { expose: B, emit: w }) {
-    const i = w, n = R(), l = t, u = V(16), s = o(null), m = o(l.modelValue), a = o(l.modelValue), y = o(a.value ? "true" : "false"), r = o(!1), f = o(!l.readMode), x = p(() => typeof l.valid == "function" ? l.valid() : l.valid), L = p(() => a.value !== m.value), E = p(() => {
+    const n = w, i = R(), l = t, u = V(16), s = o(null), m = o(l.modelValue), a = o(l.modelValue), y = o(a.value ? "true" : "false"), r = o(!1), f = o(!l.readMode), x = p(() => typeof l.valid == "function" ? l.valid() : l.valid), L = p(() => a.value !== m.value), E = p(() => {
       const e = ["lkt-field", "lkt-field-switch"];
       return l.palette && e.push(`lkt-field--${l.palette}`), L.value && e.push("is-changed"), l.disabled && e.push("is-disabled"), r.value && e.push("has-focus"), e.push(x.value ? "is-valid" : "is-error"), e.push(l.modelValue ? "is-filled" : "is-empty"), e.join(" ");
     }), C = () => {
@@ -34,19 +34,19 @@ const U = ["data-labeled"], q = ["name", "id", "disabled", "readonly", "placehol
         s.value && s.value.focus();
       });
     };
-    v(() => l.readMode, (e) => f.value = !e), v(() => l.modelValue, (e) => a.value = e), v(a, (e) => (y.value = a.value ? "true" : "false") && i("update:modelValue", e));
-    const F = () => a.value = m.value, N = () => a.value, T = (e) => (r.value = !0) && i("focus", e, M(u, { value: a.value })), $ = (e) => (r.value = !1) && i("blur", e, M(u, { value: a.value }));
+    v(() => l.readMode, (e) => f.value = !e), v(() => l.modelValue, (e) => a.value = e), v(a, (e) => (y.value = a.value ? "true" : "false") && n("update:modelValue", e));
+    const F = () => a.value = m.value, N = () => a.value, T = (e) => (r.value = !0) && n("focus", e, M(u, { value: a.value })), $ = (e) => (r.value = !1) && n("blur", e, M(u, { value: a.value }));
     return B({
       Identifier: u,
       reset: F,
       focus: C,
       value: N,
       isMandatory: () => l.mandatory
-    }), (e, h) => (b(), k("div", {
+    }), (e, h) => (b(), g("div", {
       class: j(E.value),
-      "data-labeled": !d(n).label
+      "data-labeled": !d(i).label
     }, [
-      g(e.$slots, "prefix"),
+      k(e.$slots, "prefix"),
       z(A("input", {
         "onUpdate:modelValue": h[0] || (h[0] = (c) => a.value = c),
         type: "checkbox",
@@ -63,16 +63,15 @@ const U = ["data-labeled"], q = ["name", "id", "disabled", "readonly", "placehol
       }, null, 40, q), [
         [D, a.value]
       ]),
-      d(n).label ? g(e.$slots, "label", { key: 0 }) : S("", !0),
-      d(n).label ? S("", !0) : (b(), k("label", {
+      d(i).label ? k(e.$slots, "label", { key: 0 }) : S("", !0),
+      d(i).label ? S("", !0) : (b(), g("label", {
         key: 1,
         for: d(u),
         innerHTML: t.label
       }, null, 8, G))
     ], 10, U));
   }
-});
-const W = {
+}), W = {
   install: (t) => {
     t.component("lkt-field-switch") === void 0 && t.component("lkt-field-switch", K);
   }

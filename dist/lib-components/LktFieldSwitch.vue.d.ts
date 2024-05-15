@@ -22,6 +22,12 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<__
     valueSlot?: string | undefined;
     editSlot?: string | undefined;
     slotData?: LktObject | undefined;
+    stampMode?: boolean | undefined;
+    stampPaletteOn?: string | undefined;
+    stampPaletteOff?: string | undefined;
+    textOn?: string | undefined;
+    textOff?: string | undefined;
+    isCheckbox?: boolean | undefined;
 }>, {
     modelValue: boolean;
     placeholder: string;
@@ -46,6 +52,12 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<__
     valueSlot: string;
     editSlot: string;
     slotData: () => {};
+    stampMode: boolean;
+    stampPaletteOn: string;
+    stampPaletteOff: string;
+    textOn: string;
+    textOff: string;
+    isCheckbox: boolean;
 }>, {
     Identifier: string;
     reset: () => boolean;
@@ -82,6 +94,12 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<__
     valueSlot?: string | undefined;
     editSlot?: string | undefined;
     slotData?: LktObject | undefined;
+    stampMode?: boolean | undefined;
+    stampPaletteOn?: string | undefined;
+    stampPaletteOff?: string | undefined;
+    textOn?: string | undefined;
+    textOff?: string | undefined;
+    isCheckbox?: boolean | undefined;
 }>, {
     modelValue: boolean;
     placeholder: string;
@@ -106,6 +124,12 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<__
     valueSlot: string;
     editSlot: string;
     slotData: () => {};
+    stampMode: boolean;
+    stampPaletteOn: string;
+    stampPaletteOff: string;
+    textOn: string;
+    textOff: string;
+    isCheckbox: boolean;
 }>>> & {
     onFocus?: ((...args: any[]) => any) | undefined;
     onBlur?: ((...args: any[]) => any) | undefined;
@@ -136,6 +160,12 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<__
     valueSlot: string;
     editSlot: string;
     slotData: LktObject;
+    stampMode: boolean;
+    stampPaletteOn: string;
+    stampPaletteOff: string;
+    textOn: string;
+    textOff: string;
+    isCheckbox: boolean;
 }, {}>, {
     prefix?(_: {}): any;
     edit?(_: {
@@ -143,12 +173,12 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<__
         title: string;
         data: LktObject;
     }): any;
+    label?(_: {}): any;
     value?(_: {
         value: boolean;
         title: string;
         data: LktObject;
     }): any;
-    label?(_: {}): any;
 }>;
 export default _default;
 type __VLS_NonUndefinedable<T> = T extends undefined ? never : T;

@@ -39,6 +39,12 @@ const props = withDefaults(defineProps<{
     valueSlot?: string
     editSlot?: string
     slotData?: LktObject
+    stampMode?: boolean
+    stampPaletteOn?: string
+    stampPaletteOff?: string
+    textOn?: string
+    textOff?: string
+    isCheckbox?: boolean
 }>(), {
     modelValue: false,
     placeholder: '',
@@ -63,6 +69,12 @@ const props = withDefaults(defineProps<{
     valueSlot: '',
     editSlot: '',
     slotData: () => ({}),
+    stampMode: false,
+    stampPaletteOn: 'success',
+    stampPaletteOff: 'danger',
+    textOn: '',
+    textOff: '',
+    isCheckbox: false,
 });
 
 // Constant data
@@ -77,7 +89,24 @@ const originalValue = ref(props.modelValue),
     value = ref(props.modelValue),
     inputLikeValue = ref(value.value ? 'true' : 'false'),
     focusing = ref(false),
-    editable = ref(!props.readMode);
+    editable = ref(!props.readMode),
+    stampMode = ref(props.stampMode);
+
+
+const hasCustomValueSlot = computed(() => {
+        // if (value.value === '') {
+        //     return (props.emptyValueSlot !== '' && typeof Settings.customValueSlots[props.emptyValueSlot] !== 'undefined') || (Settings.defaultEmptyValueSlot && typeof Settings.customValueSlots[Settings.defaultEmptyValueSlot] !== 'undefined');
+        // }
+        return props.valueSlot !== '' && typeof Settings.customValueSlots[props.valueSlot] !== 'undefined';
+    }),
+    customValueSlot = computed(() => {
+        // if (value.value === '') {
+        //     return Settings.customValueSlots[props.emptyValueSlot] ?? Settings.customValueSlots[Settings.defaultEmptyValueSlot];
+        // }
+        return Settings.customValueSlots[props.valueSlot];
+    }),
+    hasCustomEditSlot = computed(() => props.editSlot !== '' && typeof Settings.customEditSlots[props.editSlot] !== 'undefined'),
+    customEditSlot = computed(() => Settings.customEditSlots[props.editSlot]);
 
 
 const isValid = computed(() => {
@@ -92,15 +121,25 @@ const isValid = computed(() => {
         if (props.palette) r.push(`lkt-field--${props.palette}`);
         if (changed.value) r.push('is-changed');
         if (props.disabled) r.push('is-disabled');
+        if (props.isCheckbox) r.push('is-checkbox');
         if (focusing.value) r.push('has-focus');
 
         r.push(isValid.value ? 'is-valid' : 'is-error');
         r.push(!!props.modelValue ? 'is-filled' : 'is-empty');
 
+        if (editable.value && hasCustomEditSlot.value) r.push('with-edit-slot')
+        if (!editable.value && hasCustomValueSlot.value) r.push('with-value-slot')
+        if (!editable.value && props.stampMode) r.push('with-stamp')
+
         return r.join(' ');
     }),
+    computedStampClass = computed(() => {
+        if (value.value) return 'is-' + props.stampPaletteOn;
+        return 'is-' + props.stampPaletteOff;
+    }),
     readModeTitle = computed(() => {
-        return value.value ? 'True' : 'False';
+        if (value.value) return props.textOn || 'True';
+        return props.textOff || 'False';
     });
 
 const focus = () => {
@@ -134,23 +173,6 @@ defineExpose({
     value: getValue,
     isMandatory: () => props.mandatory
 });
-
-
-
-const hasCustomValueSlot = computed(() => {
-        // if (value.value === '') {
-        //     return (props.emptyValueSlot !== '' && typeof Settings.customValueSlots[props.emptyValueSlot] !== 'undefined') || (Settings.defaultEmptyValueSlot && typeof Settings.customValueSlots[Settings.defaultEmptyValueSlot] !== 'undefined');
-        // }
-        return props.valueSlot !== '' && typeof Settings.customValueSlots[props.valueSlot] !== 'undefined';
-    }),
-    customValueSlot = computed(() => {
-        // if (value.value === '') {
-        //     return Settings.customValueSlots[props.emptyValueSlot] ?? Settings.customValueSlots[Settings.defaultEmptyValueSlot];
-        // }
-        return Settings.customValueSlots[props.valueSlot];
-    }),
-    hasCustomEditSlot = computed(() => props.editSlot !== '' && typeof Settings.customEditSlots[props.editSlot] !== 'undefined'),
-    customEditSlot = computed(() => Settings.customEditSlots[props.editSlot]);
 </script>
 
 
@@ -164,22 +186,27 @@ const hasCustomValueSlot = computed(() => {
                     <slot name="edit" v-bind:value="value" :title="readModeTitle" :data="slotData"></slot>
                 </div>
             </template>
-            <div v-else-if="hasCustomEditSlot" v-on:click="onClick">
+            <div v-else-if="hasCustomEditSlot">
                 <component v-bind:is="customEditSlot"
                            v-bind:value="value" :title="readModeTitle" :data="slotData"></component>
             </div>
-            <input v-model="value"
-                   type="checkbox"
-                   :ref="(el:any) => inputElement = el"
-                   v-bind:name="name"
-                   v-bind:id="Identifier"
-                   v-bind:disabled="!editable || disabled"
-                   v-bind:readonly="!editable || readonly"
-                   v-bind:placeholder="placeholder"
-                   v-bind:value="inputLikeValue"
-                   v-bind:checked="value"
-                   v-on:focus="onFocus"
-                   v-on:blur="onBlur">
+            <template v-else>
+                <input v-model="value"
+                       type="checkbox"
+                       :ref="(el:any) => inputElement = el"
+                       v-bind:name="name"
+                       v-bind:id="Identifier"
+                       v-bind:disabled="!editable || disabled"
+                       v-bind:readonly="!editable || readonly"
+                       v-bind:placeholder="placeholder"
+                       v-bind:value="inputLikeValue"
+                       v-bind:checked="value"
+                       v-on:focus="onFocus"
+                       v-on:blur="onBlur">
+
+                <slot v-if="!!slots.label" name="label"></slot>
+                <label v-if="!!!slots.label" :for="Identifier" v-html="label"></label>
+            </template>
         </div>
 
         <div v-if="!editable" class="lkt-field-switch__read">
@@ -188,14 +215,16 @@ const hasCustomValueSlot = computed(() => {
             </template>
             <component v-else-if="hasCustomValueSlot" v-bind:is="customValueSlot"
                        v-bind:value="value" :title="readModeTitle"></component>
-            <div v-else class="lkt-field-switch__read-value" v-html="value" :title="readModeTitle"></div>
+
+            <div v-else-if="stampMode"
+                 class="lkt-field-switch-stamp"
+                 :class="computedStampClass" v-html="readModeTitle" :title="readModeTitle"></div>
+
+            <div v-else class="lkt-field-switch__read-value" v-html="readModeTitle" :title="readModeTitle"></div>
             <div v-if="allowReadModeSwitch" class="lkt-field__state">
                 <i class="lkt-field__edit-icon" :title="props.switchEditionMessage"
                    v-on:click="onClickSwitchEdition"></i>
             </div>
         </div>
-
-        <slot v-if="!!slots.label" name="label"></slot>
-        <label v-if="!!!slots.label" :for="Identifier" v-html="label"></label>
     </div>
 </template>

@@ -41,15 +41,6 @@
     z-index: 3;
 }
 
-.lkt-field-switch label {
-    display: block;
-    font-weight: var(--field-label-font-weight);
-    font-size: var(--field-label-font-size);
-    line-height: var(--field-label-line-height);
-    margin: var(--field-label-margin);
-    padding-left: 50px;
-}
-
 .lkt-field-switch input {
     display: none;
     opacity: 0;

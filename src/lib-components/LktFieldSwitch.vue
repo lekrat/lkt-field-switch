@@ -9,6 +9,7 @@ import {computed, nextTick, ref, useSlots, watch} from "vue";
 import {createLktEvent} from "lkt-events";
 import {Settings} from "../settings/Settings";
 import {LktObject} from "lkt-ts-interfaces";
+import {__} from "lkt-i18n";
 
 const emits = defineEmits(['update:modelValue', 'focus', 'blur', 'click', 'click-info', 'click-error']);
 
@@ -140,6 +141,12 @@ const isValid = computed(() => {
     readModeTitle = computed(() => {
         if (value.value) return props.textOn || 'True';
         return props.textOff || 'False';
+    }),
+    computedLabel = computed(() => {
+        if (props.label.startsWith('__:')) {
+            return __(props.label.substring(3));
+        }
+        return props.label;
     });
 
 const focus = () => {
@@ -205,7 +212,7 @@ defineExpose({
                        v-on:blur="onBlur">
 
                 <slot v-if="!!slots.label" name="label"></slot>
-                <label v-if="!!!slots.label" :for="Identifier" v-html="label"></label>
+                <label v-if="!!!slots.label" :for="Identifier" v-html="computedLabel"></label>
             </template>
         </div>
 

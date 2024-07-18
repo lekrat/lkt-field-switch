@@ -20,7 +20,17 @@ export default {
         outDir,
         minify: true,
         rollupOptions: {
-            external: [ 'vue', 'lkt-tools', 'lkt-events', 'lkt-button', 'lkt-http-client', 'lkt-string-tools', 'axios', 'lkt-data-state' ],
+            external: [
+                'vue',
+                'lkt-tools',
+                'lkt-events',
+                'lkt-button',
+                'lkt-i18n',
+                'lkt-http-client',
+                'lkt-string-tools',
+                'axios',
+                'lkt-data-state'
+            ],
             output: {
                 globals: {
                     vue: 'Vue',

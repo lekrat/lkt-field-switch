@@ -1,6 +1,6 @@
-declare namespace Se {
+declare namespace be {
     function install(i: any): void;
 }
-declare function Me(i: any, c: any): boolean;
-declare function be(i: any, c: any): boolean;
-export { Se as default, Me as setSwitchEditSlot, be as setSwitchValueSlot };
+declare function _e(i: any, c: any): boolean;
+declare function we(i: any, c: any): boolean;
+export { be as default, _e as setSwitchEditSlot, we as setSwitchValueSlot };

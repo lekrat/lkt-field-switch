@@ -28,6 +28,9 @@ const props = withDefaults(defineProps<{
     disabled?: boolean
     readonly?: boolean
     readMode?: boolean
+    readModeAsField?: boolean
+    readModeAsSwitch?: boolean
+    readModeAsCheck?: boolean
     allowReadModeSwitch?: boolean
     tabindex?: number
     mandatory?: boolean
@@ -56,6 +59,9 @@ const props = withDefaults(defineProps<{
     autocomplete: true,
     disabled: false,
     readonly: false,
+    readModeAsField: false,
+    readModeAsSwitch: false,
+    readModeAsCheck: false,
     readMode: false,
     allowReadModeSwitch: false,
     tabindex: undefined,
@@ -107,7 +113,10 @@ const hasCustomValueSlot = computed(() => {
         return Settings.customValueSlots[props.valueSlot];
     }),
     hasCustomEditSlot = computed(() => props.editSlot !== '' && typeof Settings.customEditSlots[props.editSlot] !== 'undefined'),
-    customEditSlot = computed(() => Settings.customEditSlots[props.editSlot]);
+    customEditSlot = computed(() => Settings.customEditSlots[props.editSlot]),
+    computedIsAsCheckbox = computed(() => {
+        return (!editable.value && (props.isCheckbox || props.readModeAsCheck)) || (editable.value && props.isCheckbox);
+    });
 
 
 const isValid = computed(() => {
@@ -122,7 +131,7 @@ const isValid = computed(() => {
         if (props.palette) r.push(`lkt-field--${props.palette}`);
         if (changed.value) r.push('is-changed');
         if (props.disabled) r.push('is-disabled');
-        if (props.isCheckbox) r.push('is-checkbox');
+        if (computedIsAsCheckbox.value) r.push('is-checkbox')
         if (focusing.value) r.push('has-focus');
 
         r.push(isValid.value ? 'is-valid' : 'is-error');
@@ -147,6 +156,12 @@ const isValid = computed(() => {
             return __(props.label.substring(3));
         }
         return props.label;
+    }),
+    computedDisplayField = computed(() => {
+        if (editable.value) return true;
+        if (props.readModeAsField || props.readModeAsCheck || props.readModeAsSwitch) return true;
+
+        return false;
     });
 
 const focus = () => {
@@ -187,7 +202,7 @@ defineExpose({
     <div v-bind:class="classes"
          v-bind:data-labeled="!!!slots.label">
         <slot name="prefix"></slot>
-        <div v-if="editable" class="lkt-field-switch__main">
+        <div v-if="computedDisplayField" class="lkt-field-switch__main">
             <template v-if="slots['edit']">
                 <div v-on:click="onClick">
                     <slot name="edit" v-bind:value="value" :title="readModeTitle" :data="slotData"></slot>
@@ -216,7 +231,7 @@ defineExpose({
             </template>
         </div>
 
-        <div v-if="!editable" class="lkt-field-switch__read">
+        <div v-if="!computedDisplayField" class="lkt-field-switch__read">
             <template v-if="slots['value']">
                 <slot name="value" v-bind:value="value" :title="readModeTitle" :data="slotData"></slot>
             </template>

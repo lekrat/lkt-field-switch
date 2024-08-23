@@ -1,33 +1,36 @@
-import { defineComponent as J, useSlots as K, ref as n, computed as u, watch as _, openBlock as a, createElementBlock as s, normalizeClass as E, unref as r, renderSlot as y, createBlock as L, resolveDynamicComponent as T, Fragment as Q, withDirectives as X, createElementVNode as O, vModelCheckbox as Y, createCommentVNode as h, nextTick as Z } from "vue";
-import { generateRandomString as D } from "lkt-string-tools";
-import { createLktEvent as H } from "lkt-events";
-import { __ as ee } from "lkt-i18n";
-let le = {}, te = {};
+import { defineComponent as Q, useSlots as X, ref as n, computed as o, watch as w, openBlock as u, createElementBlock as s, normalizeClass as L, unref as r, renderSlot as y, createBlock as A, resolveDynamicComponent as T, Fragment as Y, withDirectives as Z, createElementVNode as F, vModelCheckbox as ee, createCommentVNode as h, nextTick as le } from "vue";
+import { generateRandomString as O } from "lkt-string-tools";
+import { createLktEvent as D } from "lkt-events";
+import { __ as te } from "lkt-i18n";
+let ae = {}, oe = {};
 const f = {
-  customValueSlots: le,
-  customEditSlots: te
-}, ae = ["data-labeled"], oe = {
+  customValueSlots: ae,
+  customEditSlots: oe
+}, ue = ["data-labeled"], se = {
   key: 0,
   class: "lkt-field-switch__main"
-}, ue = { key: 1 }, se = ["name", "id", "disabled", "readonly", "placeholder", "value", "checked"], ie = ["for", "innerHTML"], de = {
+}, ie = { key: 1 }, de = ["name", "id", "disabled", "readonly", "placeholder", "value", "checked"], ne = ["for", "innerHTML"], re = {
   key: 1,
   class: "lkt-field-switch__read"
-}, ne = ["innerHTML", "title"], re = ["innerHTML", "title"], fe = {
+}, fe = ["innerHTML", "title"], ce = ["innerHTML", "title"], ve = {
   key: 4,
   class: "lkt-field__state"
-}, ce = ["title"], ve = { name: "LktFieldSwitch", inheritAttrs: !1 }, me = /* @__PURE__ */ J({
-  ...ve,
+}, pe = ["title"], me = { name: "LktFieldSwitch", inheritAttrs: !1 }, he = /* @__PURE__ */ Q({
+  ...me,
   props: {
     modelValue: { type: Boolean, default: !1 },
     placeholder: { default: "" },
     label: { default: "" },
     palette: { default: "" },
-    name: { default: D(16) },
+    name: { default: O(16) },
     valid: { type: Boolean, default: !1 },
     autocomplete: { type: Boolean, default: !0 },
     disabled: { type: Boolean, default: !1 },
     readonly: { type: Boolean, default: !1 },
     readMode: { type: Boolean, default: !1 },
+    readModeAsField: { type: Boolean, default: !1 },
+    readModeAsSwitch: { type: Boolean, default: !1 },
+    readModeAsCheck: { type: Boolean, default: !1 },
     allowReadModeSwitch: { type: Boolean, default: !1 },
     tabindex: { default: void 0 },
     mandatory: { type: Boolean, default: !1 },
@@ -48,110 +51,110 @@ const f = {
     isCheckbox: { type: Boolean, default: !1 }
   },
   emits: ["update:modelValue", "focus", "blur", "click", "click-info", "click-error"],
-  setup(i, { expose: c, emit: $ }) {
-    const S = $, v = K(), l = i, m = D(16), b = n(null), w = n(l.modelValue), t = n(l.modelValue), V = n(t.value ? "true" : "false"), M = n(!1), o = n(!l.readMode), F = n(l.stampMode), g = u(() => l.valueSlot !== "" && typeof f.customValueSlots[l.valueSlot] < "u"), P = u(() => f.customValueSlots[l.valueSlot]), B = u(() => l.editSlot !== "" && typeof f.customEditSlots[l.editSlot] < "u"), R = u(() => f.customEditSlots[l.editSlot]), N = u(() => typeof l.valid == "function" ? l.valid() : l.valid), j = u(() => t.value !== w.value), x = u(() => {
+  setup(i, { expose: c, emit: H }) {
+    const S = H, v = X(), l = i, p = O(16), M = n(null), _ = n(l.modelValue), t = n(l.modelValue), V = n(t.value ? "true" : "false"), b = n(!1), a = n(!l.readMode), $ = n(l.stampMode), C = o(() => l.valueSlot !== "" && typeof f.customValueSlots[l.valueSlot] < "u"), P = o(() => f.customValueSlots[l.valueSlot]), B = o(() => l.editSlot !== "" && typeof f.customEditSlots[l.editSlot] < "u"), x = o(() => f.customEditSlots[l.editSlot]), R = o(() => !a.value && (l.isCheckbox || l.readModeAsCheck) || a.value && l.isCheckbox), I = o(() => typeof l.valid == "function" ? l.valid() : l.valid), N = o(() => t.value !== _.value), j = o(() => {
       const e = ["lkt-field", "lkt-field-switch"];
-      return l.palette && e.push(`lkt-field--${l.palette}`), j.value && e.push("is-changed"), l.disabled && e.push("is-disabled"), l.isCheckbox && e.push("is-checkbox"), M.value && e.push("has-focus"), e.push(N.value ? "is-valid" : "is-error"), e.push(l.modelValue ? "is-filled" : "is-empty"), o.value && B.value && e.push("with-edit-slot"), !o.value && g.value && e.push("with-value-slot"), !o.value && l.stampMode && e.push("with-stamp"), e.join(" ");
-    }), z = u(() => t.value ? "is-" + l.stampPaletteOn : "is-" + l.stampPaletteOff), d = u(() => t.value ? l.textOn || "True" : l.textOff || "False"), A = u(() => l.label.startsWith("__:") ? ee(l.label.substring(3)) : l.label), C = () => {
-      Z(() => {
-        b.value && b.value.focus();
+      return l.palette && e.push(`lkt-field--${l.palette}`), N.value && e.push("is-changed"), l.disabled && e.push("is-disabled"), R.value && e.push("is-checkbox"), b.value && e.push("has-focus"), e.push(I.value ? "is-valid" : "is-error"), e.push(l.modelValue ? "is-filled" : "is-empty"), a.value && B.value && e.push("with-edit-slot"), !a.value && C.value && e.push("with-value-slot"), !a.value && l.stampMode && e.push("with-stamp"), e.join(" ");
+    }), z = o(() => t.value ? "is-" + l.stampPaletteOn : "is-" + l.stampPaletteOff), d = o(() => t.value ? l.textOn || "True" : l.textOff || "False"), U = o(() => l.label.startsWith("__:") ? te(l.label.substring(3)) : l.label), g = o(() => !!(a.value || l.readModeAsField || l.readModeAsCheck || l.readModeAsSwitch)), E = () => {
+      le(() => {
+        M.value && M.value.focus();
       });
     };
-    _(() => l.readMode, (e) => o.value = !e), _(() => l.modelValue, (e) => t.value = e), _(t, (e) => (V.value = t.value ? "true" : "false") && S("update:modelValue", e));
-    const I = () => t.value = w.value, U = () => t.value, W = (e) => (M.value = !0) && S("focus", e, H(m, { value: t.value })), q = (e) => (M.value = !1) && S("blur", e, H(m, { value: t.value })), G = (e) => {
-      o.value = !o.value, o.value && C();
+    w(() => l.readMode, (e) => a.value = !e), w(() => l.modelValue, (e) => t.value = e), w(t, (e) => (V.value = t.value ? "true" : "false") && S("update:modelValue", e));
+    const W = () => t.value = _.value, q = () => t.value, G = (e) => (b.value = !0) && S("focus", e, D(p, { value: t.value })), J = (e) => (b.value = !1) && S("blur", e, D(p, { value: t.value })), K = (e) => {
+      a.value = !a.value, a.value && E();
     };
     return c({
-      Identifier: m,
-      reset: I,
-      focus: C,
-      value: U,
+      Identifier: p,
+      reset: W,
+      focus: E,
+      value: q,
       isMandatory: () => l.mandatory
-    }), (e, k) => (a(), s("div", {
-      class: E(x.value),
+    }), (e, k) => (u(), s("div", {
+      class: L(j.value),
       "data-labeled": !r(v).label
     }, [
       y(e.$slots, "prefix"),
-      o.value ? (a(), s("div", oe, [
-        r(v).edit ? (a(), s("div", {
+      g.value ? (u(), s("div", se, [
+        r(v).edit ? (u(), s("div", {
           key: 0,
           onClick: k[0] || (k[0] = //@ts-ignore
-          (...p) => e.onClick && e.onClick(...p))
+          (...m) => e.onClick && e.onClick(...m))
         }, [
           y(e.$slots, "edit", {
             value: t.value,
             title: d.value,
             data: e.slotData
           })
-        ])) : B.value ? (a(), s("div", ue, [
-          (a(), L(T(R.value), {
+        ])) : B.value ? (u(), s("div", ie, [
+          (u(), A(T(x.value), {
             value: t.value,
             title: d.value,
             data: e.slotData
           }, null, 8, ["value", "title", "data"]))
-        ])) : (a(), s(Q, { key: 2 }, [
-          X(O("input", {
-            "onUpdate:modelValue": k[1] || (k[1] = (p) => t.value = p),
+        ])) : (u(), s(Y, { key: 2 }, [
+          Z(F("input", {
+            "onUpdate:modelValue": k[1] || (k[1] = (m) => t.value = m),
             type: "checkbox",
-            ref: (p) => b.value = p,
+            ref: (m) => M.value = m,
             name: e.name,
-            id: r(m),
-            disabled: !o.value || e.disabled,
-            readonly: !o.value || e.readonly,
+            id: r(p),
+            disabled: !a.value || e.disabled,
+            readonly: !a.value || e.readonly,
             placeholder: e.placeholder,
             value: V.value,
             checked: t.value,
-            onFocus: W,
-            onBlur: q
-          }, null, 40, se), [
-            [Y, t.value]
+            onFocus: G,
+            onBlur: J
+          }, null, 40, de), [
+            [ee, t.value]
           ]),
           r(v).label ? y(e.$slots, "label", { key: 0 }) : h("", !0),
-          r(v).label ? h("", !0) : (a(), s("label", {
+          r(v).label ? h("", !0) : (u(), s("label", {
             key: 1,
-            for: r(m),
-            innerHTML: A.value
-          }, null, 8, ie))
+            for: r(p),
+            innerHTML: U.value
+          }, null, 8, ne))
         ], 64))
       ])) : h("", !0),
-      o.value ? h("", !0) : (a(), s("div", de, [
+      g.value ? h("", !0) : (u(), s("div", re, [
         r(v).value ? y(e.$slots, "value", {
           key: 0,
           value: t.value,
           title: d.value,
           data: e.slotData
-        }) : g.value ? (a(), L(T(P.value), {
+        }) : C.value ? (u(), A(T(P.value), {
           key: 1,
           value: t.value,
           title: d.value
-        }, null, 8, ["value", "title"])) : F.value ? (a(), s("div", {
+        }, null, 8, ["value", "title"])) : $.value ? (u(), s("div", {
           key: 2,
-          class: E(["lkt-field-switch-stamp", z.value]),
+          class: L(["lkt-field-switch-stamp", z.value]),
           innerHTML: d.value,
           title: d.value
-        }, null, 10, ne)) : (a(), s("div", {
+        }, null, 10, fe)) : (u(), s("div", {
           key: 3,
           class: "lkt-field-switch__read-value",
           innerHTML: d.value,
           title: d.value
-        }, null, 8, re)),
-        e.allowReadModeSwitch ? (a(), s("div", fe, [
-          O("i", {
+        }, null, 8, ce)),
+        e.allowReadModeSwitch ? (u(), s("div", ve, [
+          F("i", {
             class: "lkt-field__edit-icon",
             title: l.switchEditionMessage,
-            onClick: G
-          }, null, 8, ce)
+            onClick: K
+          }, null, 8, pe)
         ])) : h("", !0)
       ]))
-    ], 10, ae));
+    ], 10, ue));
   }
-}), Se = {
+}), be = {
   install: (i) => {
-    i.component("lkt-field-switch") === void 0 && i.component("lkt-field-switch", me);
+    i.component("lkt-field-switch") === void 0 && i.component("lkt-field-switch", he);
   }
-}, be = (i, c) => (f.customValueSlots[i] = c, !0), Me = (i, c) => (f.customEditSlots[i] = c, !0);
+}, we = (i, c) => (f.customValueSlots[i] = c, !0), _e = (i, c) => (f.customEditSlots[i] = c, !0);
 export {
-  Se as default,
-  Me as setSwitchEditSlot,
-  be as setSwitchValueSlot
+  be as default,
+  _e as setSwitchEditSlot,
+  we as setSwitchValueSlot
 };
